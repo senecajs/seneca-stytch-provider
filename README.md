@@ -7,9 +7,9 @@ Provides access to the Trello API using the Seneca *provider*
 convention. Trello API entities are represented as Seneca entities so
 that they can be accessed using the Seneca entity API and messages.
 
-See (seneca-entity)[senecajs/seneca-entity] and the (Seneca Data
+See [seneca-entity](senecajs/seneca-entity) and the [Seneca Data
 Entities
-Tutorial)[https://senecajs.org/docs/tutorials/understanding-data-entities.html] for more details on the Seneca entity API.
+Tutorial](https://senecajs.org/docs/tutorials/understanding-data-entities.html) for more details on the Seneca entity API.
 
 NOTE: underlying third party SDK needs to be replaced as out of date and has a security issue.
 
