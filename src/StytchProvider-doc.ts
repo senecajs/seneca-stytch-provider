@@ -4,7 +4,7 @@
 const docs = {
 
   get_info: {
-    desc: 'Get information about the Trello SDK.',
+    desc: 'Get information about the Stytch SDK.',
   },
 
 }

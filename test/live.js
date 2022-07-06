@@ -8,16 +8,16 @@ Seneca({ legacy: false })
     // debug: true,
     file: [__dirname + '/local-env.js;?'],
     var: {
-      $TRELLO_APIKEY: String,
-      $TRELLO_USERTOKEN: String,
+      STYTCH_PROJECT_ID: String,
+      $STYTCH_SECRET: String,
     }
   })
   .use('provider', {
     provider: {
-      trello: {
+      stytch: {
         keys: {
-          apikey: { value: '$TRELLO_APIKEY' },
-          usertoken: { value: '$TRELLO_USERTOKEN' },
+          project_id: { value: '$STYTCH_PROJECT_ID' },
+          secret: { value: '$STYTCH_SECRET' },
         }
       }
     }
@@ -26,11 +26,11 @@ Seneca({ legacy: false })
   .ready(async function() {
     const seneca = this
 
-    console.log('SDK:', seneca.export('TrelloProvider/sdk')())
+    console.log('SDK:', seneca.export('StytchProvider/sdk')())
 
-    console.log(await seneca.post('sys:provider,provider:trello,get:info'))
+    console.log(await seneca.post('sys:provider,provider:stytch,get:info'))
     
-    const list = await seneca.entity("provider/trello/board").list$()
+    const list = await seneca.entity("provider/stytch/user").list$()
     console.log(list.slice(0,3))
   })
 

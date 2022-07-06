@@ -2,29 +2,29 @@
 
 const Pkg = require('../package.json')
 
-const Trello = require('trello')
+const Stytch = require('stytch')
 
 
-type TrelloProviderOptions = {}
+type StytchProviderOptions = {}
 
-function TrelloProvider(this: any, _options: TrelloProviderOptions) {
+function StytchProvider(this: any, _options: StytchProviderOptions) {
   const seneca: any = this
 
   const entityBuilder = this.export('provider/entityBuilder')
 
 
   seneca
-    .message('sys:provider,provider:trello,get:info', get_info)
+    .message('sys:provider,provider:stytch,get:info', get_info)
 
 
   async function get_info(this: any, _msg: any) {
     return {
       ok: true,
-      name: 'trello',
+      name: 'stytch',
       version: Pkg.version,
       sdk: {
-        name: 'trello',
-        version: Pkg.dependencies['trello'],
+        name: 'stytch',
+        version: Pkg.dependencies['stytch'],
       }
     }
   }
@@ -32,21 +32,27 @@ function TrelloProvider(this: any, _options: TrelloProviderOptions) {
 
   entityBuilder(this, {
     provider: {
-      name: 'trello'
+      name: 'stytch'
     },
     entity: {
-      board: {
+      user: {
         cmd: {
           list: {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
-              let member = q.member || 'me'
-              let res = await this.shared.sdk.getBoards(member)
-              let list = res.map((data: any) => entize(data))
+
+              // NOTE: throws on error
+              let res = await this.shared.sdk.users.search(q)
+              let list = res.results.map((data: any) => entize(data, {
+                field: {
+                  id: { src: 'user_id' }
+                }
+              }))
               return list
             }
           },
 
+          /*
           load: {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
@@ -99,21 +105,34 @@ function TrelloProvider(this: any, _options: TrelloProviderOptions) {
               }
             }
           }
-
+          */
         }
       }
     }
   })
 
   seneca.prepare(async function(this: any) {
-    // TODO: define sys:provider,get:keys to get all the keys?
+    // let project_id =
+    //   await this.post('sys:provider,get:key,provider:stytch,key:project_id')
+    // let secret =
+    //   await this.post('sys:provider,get:key,provider:stytch,key:secret')
 
-    let apikey =
-      await this.post('sys:provider,get:key,provider:trello,key:apikey')
-    let usertoken =
-      await this.post('sys:provider,get:key,provider:trello,key:usertoken')
+    let res =
+      await this.post('sys:provider,get:keymap,provider:stytch')
 
-    this.shared.sdk = new Trello(apikey.value, usertoken.value)
+    if (!res.ok) {
+      // TODO: review
+      this.fail('stytch-missing-keymap', res)
+    }
+
+    let project_id = res.keymap.project_id.value
+    let secret = res.keymap.secret.value
+
+    this.shared.sdk = new Stytch.Client({
+      project_id,
+      secret,
+      env: Stytch.envs.test
+    })
   })
 
 
@@ -126,17 +145,17 @@ function TrelloProvider(this: any, _options: TrelloProviderOptions) {
 
 
 // Default options.
-const defaults: TrelloProviderOptions = {
+const defaults: StytchProviderOptions = {
 
   // TODO: Enable debug logging
   debug: false
 }
 
 
-Object.assign(TrelloProvider, { defaults })
+Object.assign(StytchProvider, { defaults })
 
-export default TrelloProvider
+export default StytchProvider
 
 if ('undefined' !== typeof (module)) {
-  module.exports = TrelloProvider
+  module.exports = StytchProvider
 }

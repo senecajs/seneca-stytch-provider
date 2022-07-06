@@ -1,10 +1,10 @@
-![Seneca Trello-Provider](http://senecajs.org/files/assets/seneca-logo.png)
+![Seneca Stytch-Provider](http://senecajs.org/files/assets/seneca-logo.png)
 
-> _Seneca Trello-Provider_ is a plugin for [Seneca](http://senecajs.org)
+> _Seneca Stytch-Provider_ is a plugin for [Seneca](http://senecajs.org)
 
 
-Provides access to the Trello API using the Seneca *provider*
-convention. Trello API entities are represented as Seneca entities so
+Provides access to the Stytch API using the Seneca *provider*
+convention. Stytch API entities are represented as Seneca entities so
 that they can be accessed using the Seneca entity API and messages.
 
 See [seneca-entity](senecajs/seneca-entity) and the [Seneca Data
@@ -13,12 +13,12 @@ Tutorial](https://senecajs.org/docs/tutorials/understanding-data-entities.html) 
 
 NOTE: underlying third party SDK needs to be replaced as out of date and has a security issue.
 
-[![npm version](https://img.shields.io/npm/v/@seneca/trello-provider.svg)](https://npmjs.com/package/@seneca/trello-provider)
-[![build](https://github.com/senecajs/seneca-trello-provider/actions/workflows/build.yml/badge.svg)](https://github.com/senecajs/seneca-trello-provider/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/senecajs/seneca-trello-provider/badge.svg?branch=main)](https://coveralls.io/github/senecajs/seneca-trello-provider?branch=main)
-[![Known Vulnerabilities](https://snyk.io/test/github/senecajs/seneca-trello-provider/badge.svg)](https://snyk.io/test/github/senecajs/seneca-trello-provider)
+[![npm version](https://img.shields.io/npm/v/@seneca/stytch-provider.svg)](https://npmjs.com/package/@seneca/stytch-provider)
+[![build](https://github.com/senecajs/seneca-stytch-provider/actions/workflows/build.yml/badge.svg)](https://github.com/senecajs/seneca-stytch-provider/actions/workflows/build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/senecajs/seneca-stytch-provider/badge.svg?branch=main)](https://coveralls.io/github/senecajs/seneca-stytch-provider?branch=main)
+[![Known Vulnerabilities](https://snyk.io/test/github/senecajs/seneca-stytch-provider/badge.svg)](https://snyk.io/test/github/senecajs/seneca-stytch-provider)
 [![DeepScan grade](https://deepscan.io/api/teams/5016/projects/19462/branches/505954/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5016&pid=19462&bid=505954)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f76e83896b731bb5d609/maintainability)](https://codeclimate.com/github/senecajs/seneca-trello-provider/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f76e83896b731bb5d609/maintainability)](https://codeclimate.com/github/senecajs/seneca-stytch-provider/maintainability)
 
 
 | ![Voxgig](https://www.voxgig.com/res/img/vgt01r.png) | This open source module is sponsored and supported by [Voxgig](https://www.voxgig.com). |
@@ -36,24 +36,24 @@ Seneca()
   // Get API keys using the seneca-env plugin
   .use('env', {
     var: {
-      $TRELLO_APIKEY: String,
-      $TRELLO_USERTOKEN: String,
+      $STYTCH_APIKEY: String,
+      $STYTCH_USERTOKEN: String,
     }
   })
   .use('provider', {
     provider: {
-      trello: {
+      stytch: {
         keys: {
-          apikey: { value: '$TRELLO_APIKEY' },
-          usertoken: { value: '$TRELLO_USERTOKEN' },
+          apikey: { value: '$STYTCH_APIKEY' },
+          usertoken: { value: '$STYTCH_USERTOKEN' },
         }
       }
     }
   })
-  .use('trello-provider')
+  .use('stytch-provider')
 
-let board = await seneca.entity('provider/trello/board')
-  .load$('<trello-board-id>')
+let board = await seneca.entity('provider/stytch/board')
+  .load$('<stytch-board-id>')
 
 Console.log('BOARD', board)
 
@@ -67,7 +67,7 @@ Console.log('UPDATED BOARD', board)
 ## Install
 
 ```sh
-$ npm install @seneca/trello-provider @seneca/env
+$ npm install @seneca/stytch-provider @seneca/env
 ```
 
 
@@ -84,7 +84,7 @@ Set plugin options when loading with:
 ```js
 
 
-seneca.use('TrelloProvider', { name: value, ... })
+seneca.use('StytchProvider', { name: value, ... })
 
 
 ```
@@ -102,9 +102,9 @@ seneca.use('TrelloProvider', { name: value, ... })
 
 ## Action Patterns
 
-* [role:entity,base:trello,cmd:load,name:repo,zone:provider](#-roleentitybasetrellocmdloadnamerepozoneprovider-)
-* [role:entity,base:trello,cmd:save,name:repo,zone:provider](#-roleentitybasetrellocmdsavenamerepozoneprovider-)
-* [sys:provider,get:info,provider:trello](#-sysprovidergetinfoprovidertrello-)
+* [role:entity,base:stytch,cmd:load,name:repo,zone:provider](#-roleentitybasestytchcmdloadnamerepozoneprovider-)
+* [role:entity,base:stytch,cmd:save,name:repo,zone:provider](#-roleentitybasestytchcmdsavenamerepozoneprovider-)
+* [sys:provider,get:info,provider:stytch](#-sysprovidergetinfoproviderstytch-)
 
 
 <!--END:action-list-->
@@ -114,21 +114,21 @@ seneca.use('TrelloProvider', { name: value, ... })
 
 ## Action Descriptions
 
-### &laquo; `role:entity,base:trello,cmd:load,name:repo,zone:provider` &raquo;
+### &laquo; `role:entity,base:stytch,cmd:load,name:repo,zone:provider` &raquo;
 
-Load Trello repository data into an entity.
-
-
-
-----------
-### &laquo; `role:entity,base:trello,cmd:save,name:repo,zone:provider` &raquo;
-
-Update Trello repository data from an entity.
+Load Stytch repository data into an entity.
 
 
 
 ----------
-### &laquo; `sys:provider,get:info,provider:trello` &raquo;
+### &laquo; `role:entity,base:stytch,cmd:save,name:repo,zone:provider` &raquo;
+
+Update Stytch repository data from an entity.
+
+
+
+----------
+### &laquo; `sys:provider,get:info,provider:stytch` &raquo;
 
 Get information about the provider.
 

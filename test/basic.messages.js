@@ -4,7 +4,7 @@ const Pkg = require('../package.json')
 
 module.exports = {
   print: false,
-  pattern: 'sys:provider,provider:trello',
+  pattern: 'sys:provider,provider:stytch',
   allow: { missing: true },
 
   calls: [
@@ -12,11 +12,11 @@ module.exports = {
       pattern: 'get:info',
       out: {
         ok: true,
-        name: 'trello',
+        name: 'stytch',
         version: Pkg.version,
         sdk: {
-          name: 'trello',
-          version: Pkg.dependencies['trello'],
+          name: 'stytch',
+          version: Pkg.dependencies['stytch'],
         }
       },
     }
