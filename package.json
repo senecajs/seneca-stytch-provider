@@ -1,6 +1,6 @@
 {
   "name": "@seneca/stytch-provider",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/stytch-provider.js",
   "type": "commonjs",
   "types": "dist/stytch-provider.d.ts",
