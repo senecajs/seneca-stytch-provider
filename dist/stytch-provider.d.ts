@@ -1,5 +1,8 @@
-declare type StytchProviderOptions = {};
-declare function StytchProvider(this: any, _options: StytchProviderOptions): {
+declare type StytchProviderOptions = {
+    env: string;
+    debug: boolean;
+};
+declare function StytchProvider(this: any, options: StytchProviderOptions): {
     exports: {
         sdk: () => any;
     };

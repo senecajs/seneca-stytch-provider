@@ -5,9 +5,12 @@ const Pkg = require('../package.json')
 const Stytch = require('stytch')
 
 
-type StytchProviderOptions = {}
+type StytchProviderOptions = {
+  env: string,
+  debug: boolean,
+}
 
-function StytchProvider(this: any, _options: StytchProviderOptions) {
+function StytchProvider(this: any, options: StytchProviderOptions) {
   const seneca: any = this
 
   const entityBuilder = this.export('provider/entityBuilder')
@@ -51,87 +54,28 @@ function StytchProvider(this: any, _options: StytchProviderOptions) {
               return list
             }
           },
-
-          /*
-          load: {
-            action: async function(this: any, entize: any, msg: any) {
-              let q = msg.q || {}
-              let id = q.id
-
-              try {
-                let res = await this.shared.sdk.getBoard(id)
-                return entize(res)
-              }
-              catch (e: any) {
-                if (e.message.includes('invalid id')) {
-                  return null
-                }
-                else {
-                  throw e
-                }
-              }
-            }
-          },
-
-          save: {
-            action: async function(this: any, entize: any, msg: any) {
-              let ent = msg.ent
-              try {
-                let res
-                if (ent.id) {
-                  // TODO: util to handle more fields
-                  res = await this.shared.sdk.updateBoard(ent.id, {
-                    desc: ent.desc
-                  })
-                }
-                else {
-                  // TODO: util to handle more fields
-                  let fields = {
-                    name: ent.name,
-                    desc: ent.desc,
-                  }
-                  res = await this.shared.sdk.addBoard(fields)
-                }
-
-                return entize(res)
-              }
-              catch (e: any) {
-                if (e.message.includes('invalid id')) {
-                  return null
-                }
-                else {
-                  throw e
-                }
-              }
-            }
-          }
-          */
         }
       }
     }
   })
 
   seneca.prepare(async function(this: any) {
-    // let project_id =
-    //   await this.post('sys:provider,get:key,provider:stytch,key:project_id')
-    // let secret =
-    //   await this.post('sys:provider,get:key,provider:stytch,key:secret')
+    let seneca = this
 
     let res =
-      await this.post('sys:provider,get:keymap,provider:stytch')
+      await seneca.post('sys:provider,get:keymap,provider:stytch')
 
     if (!res.ok) {
-      // TODO: review
       this.fail('stytch-missing-keymap', res)
     }
 
     let project_id = res.keymap.project_id.value
     let secret = res.keymap.secret.value
 
-    this.shared.sdk = new Stytch.Client({
+    seneca.shared.sdk = new Stytch.Client({
       project_id,
       secret,
-      env: Stytch.envs.test
+      env: 'live' === options.env ? Stytch.envs.live : Stytch.envs.test
     })
   })
 
@@ -146,6 +90,8 @@ function StytchProvider(this: any, _options: StytchProviderOptions) {
 
 // Default options.
 const defaults: StytchProviderOptions = {
+
+  env: 'test',
 
   // TODO: Enable debug logging
   debug: false
