@@ -139,8 +139,14 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      return entize(res)
+	      return entize(res, {
+                field: {
+                  id: { src: 'user_id' }
+                }
+              })
+
 	    }
+
 	  },
 
         }

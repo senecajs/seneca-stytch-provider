@@ -72,7 +72,7 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit: 5})
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 10})
     expect(list.length > 0).toBeTruthy()
   })
 
@@ -84,6 +84,7 @@ describe('stytch-provider', () => {
     let remove = await seneca.entity('provider/stytch/user').remove$(list[0].id)
 
     expect(remove.status_code >= 200 && remove.status_code < 300).toBeTruthy()
+    expect(remove.id).toBeDefined()
 
   })
 
