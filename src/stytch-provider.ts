@@ -10,11 +10,6 @@ type StytchProviderOptions = {
   debug: boolean,
 }
 
-interface ProviderRes {
-  res: any,
-  id?: string,
-}
-
 function check_status(this: any, res: any) {
   res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null
 }
@@ -62,19 +57,13 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      let list = res.results.map((data: any) => {
-	        let data_obj: ProviderRes = { 'res': data }
-		data_obj['id'] = data['user_id']
-		return entize(data_obj)
-		/*
-	        entize({ 'res': data }, {
-                  field: {
-                    id: { src: 'user_id' }
-                  }
-	        })
-		*/
-
+	      let list = res.results.map((data: any) => entize(data, {
+                field: {
+                  id: { src: 'user_id' }
+                }
 	      })
+
+	      )
               return list
             }
           },
@@ -94,7 +83,12 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      return entize({ 'res': res } as ProviderRes)
+	      // TODO: something like: ({'res': res} as ProviderRes) for more structure?
+	      return entize(res, {
+                field: {
+                  id: { src: 'user_id' }
+                }
+              })
 
 	    }
 	  },
@@ -123,8 +117,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      // TODO: naming for 'res'
-	      return entize({ 'res': res } as ProviderRes)
+	      return entize(res)
 	    }
 	  },
 
@@ -141,7 +134,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      return entize({ 'res': res } as ProviderRes)
+	      return entize(res)
 	    }
 	  },
 

@@ -40,18 +40,11 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            let list = res.results.map((data) => {
-                                let data_obj = { 'res': data };
-                                data_obj['id'] = data['user_id'];
-                                return entize(data_obj);
-                                /*
-                                    entize({ 'res': data }, {
-                                          field: {
-                                            id: { src: 'user_id' }
-                                          }
-                                    })
-                                */
-                            });
+                            let list = res.results.map((data) => entize(data, {
+                                field: {
+                                    id: { src: 'user_id' }
+                                }
+                            }));
                             return list;
                         }
                     },
@@ -68,7 +61,12 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            return entize({ 'res': res });
+                            // TODO: something like: ({'res': res} as ProviderRes) for more structure?
+                            return entize(res, {
+                                field: {
+                                    id: { src: 'user_id' }
+                                }
+                            });
                         }
                     },
                     save: {
@@ -93,8 +91,7 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            // TODO: naming for 'res'
-                            return entize({ 'res': res });
+                            return entize(res);
                         }
                     },
                     remove: {
@@ -110,7 +107,7 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            return entize({ 'res': res });
+                            return entize(res);
                         }
                     },
                 }
