@@ -85,7 +85,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      }
 	      check_status.call(this, res)
 
-	      // TODO: something like: ({'res': res} as ProviderRes) for more structure?
+	      // TODO: something like: (entize({'res': res} as ProviderRes)) for more structure?
 	      return entize(res, {
                 field: {
                   id: { src: 'user_id' }
