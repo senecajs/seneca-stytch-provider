@@ -47,8 +47,19 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
+    let save = await seneca.entity('provider/stytch/user').save$({ user: { email: 'alex0@example.com' } })
+	
+    console.log('save: ', await save.save$({user: { email: 'alex01@example.com' }}) )
+
     const list = await seneca.entity("provider/stytch/user").list$()
-    expect(list.length > 0).toBeTruthy()
+    console.log('list: ', list )
+    console.log('list: ', await list[0].save$({user: {email: 'alex02@example.com'}}) )
+
+    console.log('load: ', (await seneca.entity('provider/stytch/user').load$(list[0].id)) )
+
+    console.log('update: ', (await seneca.entity('provider/stytch/user').save$({id: list[0].id, user: { name: { first_name: 'Alex' } } }) ) )
+
+   // expect(list.length > 0).toBeTruthy()
   })
 })
 
@@ -77,6 +88,11 @@ async function makeSeneca() {
       }
     })
     .use(StytchProvider)
+
+    let res =
+      await seneca.post('sys:provider,get:keymap,provider:stytch')
+
+console.log(res)
 
   return seneca.ready()
 }

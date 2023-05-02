@@ -10,6 +10,15 @@ type StytchProviderOptions = {
   debug: boolean,
 }
 
+interface ProviderRes {
+  res: any,
+  id?: string,
+}
+
+function check_status(this: any, res: any) {
+  res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null
+}
+
 function StytchProvider(this: any, options: StytchProviderOptions) {
   const seneca: any = this
 
@@ -44,16 +53,100 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
 
+	      let res: any = null
+
               // NOTE: throws on error
-              let res = await this.shared.sdk.users.search(q)
-              let list = res.results.map((data: any) => entize(data, {
-                field: {
-                  id: { src: 'user_id' }
-                }
-              }))
+
+	      try {
+                res = await this.shared.sdk.users.search(q)
+	      }catch(err_res) {
+		res = err_res
+	      }
+	      check_status.call(this, res)
+
+	      let list = res.results.map((data: any) => {
+	        let data_obj: ProviderRes = { 'res': data }
+		data_obj['id'] = data['user_id']
+		return entize(data_obj)
+		/*
+	        entize({ 'res': data }, {
+                  field: {
+                    id: { src: 'user_id' }
+                  }
+	        })
+		*/
+
+	      })
               return list
             }
           },
+
+	  load: {
+	    action: async function(this: any, entize: any, msg: any) {
+	      let id = msg?.q?.id
+	      let res: any = null
+
+	      id == null ? this.fail('invalid id') : null
+
+
+	      try {
+                res = await this.shared.sdk.users.get(id)
+	      }catch(err_res) {
+		res = err_res
+	      }
+	      check_status.call(this, res)
+
+	      return entize({ 'res': res } as ProviderRes)
+
+	    }
+	  },
+	  
+          save: {
+	    action: async function(this: any, entize: any, msg: any) {
+	      let id = msg?.q?.id
+	      let ent: any = msg.ent
+	      let user: any = ent['user'] || {}
+	      let params: Array<any> = []
+	      let api_call: string
+
+	      let res: any = null
+
+	      api_call = id == null ?
+	        (params = [ user ], 'create') : (params = [ id, user ], 'update')
+	      // invalid body parameters
+	      if(0 === Object.keys(user).length) {
+	        this.fail('empty body parameters')
+	      }
+
+	      try {
+                res = await this.shared.sdk.users[api_call](...params)
+	      }catch(err_res) {
+		res = err_res
+	      }
+	      check_status.call(this, res)
+
+	      // TODO: naming for 'res'
+	      return entize({ 'res': res } as ProviderRes)
+	    }
+	  },
+
+	  remove: {
+            action: async function(this: any, entize: any, msg: any) {
+	      let id = msg?.q?.id
+	      let res: any = null
+
+	      id == null ? this.fail('invalid id') : null
+	      try {
+                res = await this.shared.sdk.users.delete(id)
+	      }catch(err_res) {
+		res = err_res
+	      }
+	      check_status.call(this, res)
+
+	      return entize({ 'res': res } as ProviderRes)
+	    }
+	  },
+
         }
       }
     }

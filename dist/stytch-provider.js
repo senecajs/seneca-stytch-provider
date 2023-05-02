@@ -3,6 +3,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Pkg = require('../package.json');
 const Stytch = require('stytch');
+function check_status(res) {
+    res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null;
+}
 function StytchProvider(options) {
     const seneca = this;
     const entityBuilder = this.export('provider/entityBuilder');
@@ -29,14 +32,86 @@ function StytchProvider(options) {
                     list: {
                         action: async function (entize, msg) {
                             let q = msg.q || {};
+                            let res = null;
                             // NOTE: throws on error
-                            let res = await this.shared.sdk.users.search(q);
-                            let list = res.results.map((data) => entize(data, {
-                                field: {
-                                    id: { src: 'user_id' }
-                                }
-                            }));
+                            try {
+                                res = await this.shared.sdk.users.search(q);
+                            }
+                            catch (err_res) {
+                                res = err_res;
+                            }
+                            check_status.call(this, res);
+                            let list = res.results.map((data) => {
+                                let data_obj = { 'res': data };
+                                data_obj['id'] = data['user_id'];
+                                return entize(data_obj);
+                                /*
+                                    entize({ 'res': data }, {
+                                          field: {
+                                            id: { src: 'user_id' }
+                                          }
+                                    })
+                                */
+                            });
                             return list;
+                        }
+                    },
+                    load: {
+                        action: async function (entize, msg) {
+                            var _a;
+                            let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
+                            let res = null;
+                            id == null ? this.fail('invalid id') : null;
+                            try {
+                                res = await this.shared.sdk.users.get(id);
+                            }
+                            catch (err_res) {
+                                res = err_res;
+                            }
+                            check_status.call(this, res);
+                            return entize({ 'res': res });
+                        }
+                    },
+                    save: {
+                        action: async function (entize, msg) {
+                            var _a;
+                            let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
+                            let ent = msg.ent;
+                            let user = ent['user'] || {};
+                            let params = [];
+                            let api_call;
+                            let res = null;
+                            api_call = id == null ?
+                                (params = [user], 'create') : (params = [id, user], 'update');
+                            // invalid body parameters
+                            if (0 === Object.keys(user).length) {
+                                this.fail('empty body parameters');
+                            }
+                            try {
+                                res = await this.shared.sdk.users[api_call](...params);
+                            }
+                            catch (err_res) {
+                                res = err_res;
+                            }
+                            check_status.call(this, res);
+                            // TODO: naming for 'res'
+                            return entize({ 'res': res });
+                        }
+                    },
+                    remove: {
+                        action: async function (entize, msg) {
+                            var _a;
+                            let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
+                            let res = null;
+                            id == null ? this.fail('invalid id') : null;
+                            try {
+                                res = await this.shared.sdk.users.delete(id);
+                            }
+                            catch (err_res) {
+                                res = err_res;
+                            }
+                            check_status.call(this, res);
+                            return entize({ 'res': res });
                         }
                     },
                 }

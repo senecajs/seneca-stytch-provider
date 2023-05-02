@@ -43,10 +43,7 @@
     "stytch": "^5.12.1"
   },
   "peerDependencies": {
-    "@seneca/env": ">=0.2",
-    "@seneca/provider": ">=0.6",
     "seneca": ">=3",
-    "seneca-entity": ">=18",
     "seneca-promisify": ">=3"
   },
   "devDependencies": {
@@ -58,6 +55,9 @@
     "jest": "^29.0.3",
     "seneca": ">=3",
     "seneca-msg-test": "^3.4.0",
+    "@seneca/env": ">=0.2",
+    "@seneca/provider": ">=0.6",
+    "seneca-entity": ">=18",
     "typescript": "^4.8.3"
   }
 }
