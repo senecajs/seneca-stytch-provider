@@ -95,8 +95,8 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	  
           save: {
 	    action: async function(this: any, entize: any, msg: any) {
-	      let id = msg?.q?.id
 	      let ent: any = msg.ent
+	      let id = ent.id
 	      let user: any = ent['user'] || {}
 	      let params: Array<any> = []
 	      let api_call: string
@@ -116,8 +116,13 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
+              
+	      return entize(res, {
+                field: {
+                  id: { src: 'user_id' }
+                }
+              })
 
-	      return entize(res)
 	    }
 	  },
 

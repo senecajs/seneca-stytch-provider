@@ -42,45 +42,51 @@ describe('stytch-provider', () => {
     await (SenecaMsgTest(seneca, BasicMessages)())
   })
 
-  test('user-save', async () => {
+  test('user-save-new', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
     let user = await seneca.entity('provider/stytch/user')
-    user.user = { email:  'number@example.com' }
-    await user.save$()
+    // user.user = { email:  'alice@example.com' }
+    let save = await user.save$({ user: { email: 'alice@example.com' } })
+    expect(save.id).toBeDefined()
+
   })
 
   test('user-save-update', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
+    let name = "Alice"
+
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
+    let user = await seneca.entity('provider/stytch/user').load$(list[0].id)
+    user.user = { name: { first_name: name } }
+    let save = await user.save$()
+    
+    expect(save.id).toBeDefined()
+    expect(save.user.name.first_name).toEqual(name)
+
   })
 
-  test('user-list-load', async () => {
+  test('user-list', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/stytch/user").list$()
-    console.log('list: ', list )
-    let load = await seneca.entity('provider/stytch/user').load$(list[0].id)
-    console.log('load: ', load)
-
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 5})
+    expect(list.length > 0).toBeTruthy()
   })
 
-  test('user-basic', async () => {
+  test('user-remove', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    let save = await seneca.entity('provider/stytch/user').save$({ user: { email: 'alex0@example.com' } })
-	
-    console.log('save: ', await save.save$({user: { email: 'alex01@example.com' }}) )
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
+    let remove = await seneca.entity('provider/stytch/user').remove$(list[0].id)
 
-    // console.log('list: ', await list[0].save$({user: {email: 'alex02@example.com'}}) )
+    expect(remove.status_code >= 200 && remove.status_code < 300).toBeTruthy()
 
-    // console.log('update: ', (await seneca.entity('provider/stytch/user').save$({id: list[0].id, user: { name: { first_name: 'Alex' } } }) ) )
-
-   // expect(list.length > 0).toBeTruthy()
   })
+
 })
 
 
@@ -108,11 +114,6 @@ async function makeSeneca() {
       }
     })
     .use(StytchProvider)
-
-    let res =
-      await seneca.post('sys:provider,get:keymap,provider:stytch')
-
-console.log(res)
 
   return seneca.ready()
 }

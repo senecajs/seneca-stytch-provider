@@ -71,9 +71,8 @@ function StytchProvider(options) {
                     },
                     save: {
                         action: async function (entize, msg) {
-                            var _a;
-                            let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
                             let ent = msg.ent;
+                            let id = ent.id;
                             let user = ent['user'] || {};
                             let params = [];
                             let api_call;
@@ -91,7 +90,11 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            return entize(res);
+                            return entize(res, {
+                                field: {
+                                    id: { src: 'user_id' }
+                                }
+                            });
                         }
                     },
                     remove: {
