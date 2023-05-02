@@ -33,7 +33,6 @@ function StytchProvider(options) {
                         action: async function (entize, msg) {
                             let q = msg.q || {};
                             let res = null;
-                            // NOTE: throws on error
                             try {
                                 res = await this.shared.sdk.users.search(q);
                             }
@@ -85,7 +84,7 @@ function StytchProvider(options) {
                                 (params = [user], 'create') : (params = [id, user], 'update');
                             // invalid body parameters
                             if (0 === Object.keys(user).length) {
-                                this.fail('empty body parameters');
+                                this.fail('empty body parameters', 'user field');
                             }
                             try {
                                 res = await this.shared.sdk.users[api_call](...params);

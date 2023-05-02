@@ -55,8 +55,6 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 
 	      let res: any = null
 
-              // NOTE: throws on error
-
 	      try {
                 res = await this.shared.sdk.users.search(q)
 	      }catch(err_res) {
@@ -115,7 +113,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	        (params = [ user ], 'create') : (params = [ id, user ], 'update')
 	      // invalid body parameters
 	      if(0 === Object.keys(user).length) {
-	        this.fail('empty body parameters')
+	        this.fail('empty body parameters', 'user field')
 	      }
 
 	      try {
