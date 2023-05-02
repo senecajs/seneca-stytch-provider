@@ -33,6 +33,15 @@ function StytchProvider(options) {
                     list: {
                         action: async function (entize, msg) {
                             let q = msg.q || {};
+                            q = Object.keys(q).reduce((acc, key) => {
+                                if (key.endsWith('$')) {
+                                    key = key.replace(/.$/, '');
+                                    acc[key] = q[key + '$'];
+                                }
+                                else
+                                    acc[key] = q[key];
+                                return acc;
+                            }, {});
                             let res = null;
                             try {
                                 res = await this.shared.sdk.users.search(q);
@@ -125,6 +134,15 @@ function StytchProvider(options) {
                     list: {
                         action: async function (entize, msg) {
                             let q = msg.q || {};
+                            q = Object.keys(q).reduce((acc, key) => {
+                                if (key.endsWith('$')) {
+                                    key = key.replace(/.$/, '');
+                                    acc[key] = q[key + '$'];
+                                }
+                                else
+                                    acc[key] = q[key];
+                                return acc;
+                            }, {});
                             let res = null;
                             try {
                                 res = await this.shared.sdk.sessions.get(q);

@@ -50,6 +50,13 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
 
+	      q = Object.keys(q).reduce((acc: any, key: any) => {
+		if(key.endsWith('$')) {
+		  key = key.replace(/.$/, '')
+		  acc[key] = q[key+'$']
+		} else acc[key] = q[key]
+		return acc
+	      }, {})
 	      let res: any = null
 
 	      try {
@@ -159,6 +166,15 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
           list: {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
+	      
+              q = Object.keys(q).reduce((acc: any, key: any) => {
+                if(key.endsWith('$')) {
+                  key = key.replace(/.$/, '')
+                  acc[key] = q[key+'$']
+                } else acc[key] = q[key]
+                return acc
+              }, {})
+
 
 	      let res: any = null
 
