@@ -152,7 +152,32 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	  },
 
         }
+      },
+      
+      session: {
+        cmd: {
+          list: {
+            action: async function(this: any, entize: any, msg: any) {
+              let q = msg.q || {}
+
+	      let res: any = null
+
+	      try {
+                res = await this.shared.sdk.sessions.get(q)
+	      }catch(err_res) {
+		res = err_res
+	      }
+	      check_status.call(this, res)
+	      console.log(res)
+	      return res.sessions.map((data: any) => entize(data))
+	      
+	      
+            }
+          },
+          
+        }
       }
+      
     }
   })
 

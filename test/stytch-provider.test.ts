@@ -68,6 +68,15 @@ describe('stytch-provider', () => {
 
   })
 
+  test('session-list', async () => {
+    if (!Config) return;
+    const seneca = await makeSeneca()
+
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
+    console.log( await seneca.entity('provider/stytch/session').list$({ user_id: list[0].id }) )
+  })
+
+
   test('user-list', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
@@ -87,6 +96,7 @@ describe('stytch-provider', () => {
     expect(remove.id).toBeDefined()
 
   })
+
 
 })
 

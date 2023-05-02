@@ -119,6 +119,25 @@ function StytchProvider(options) {
                         }
                     },
                 }
+            },
+            session: {
+                cmd: {
+                    list: {
+                        action: async function (entize, msg) {
+                            let q = msg.q || {};
+                            let res = null;
+                            try {
+                                res = await this.shared.sdk.sessions.get(q);
+                            }
+                            catch (err_res) {
+                                res = err_res;
+                            }
+                            check_status.call(this, res);
+                            console.log(res);
+                            return res.sessions.map((data) => entize(data));
+                        }
+                    },
+                }
             }
         }
     });
