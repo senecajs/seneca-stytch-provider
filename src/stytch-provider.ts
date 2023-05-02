@@ -4,6 +4,8 @@ const Pkg = require('../package.json')
 
 const Stytch = require('stytch')
 
+const https = require('https')
+
 
 type StytchProviderOptions = {
   env: string,
@@ -167,10 +169,15 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
     let project_id = res.keymap.project_id.value
     let secret = res.keymap.secret.value
 
+    const agent = new https.Agent({
+      keepAlive: true,
+    })
+
     seneca.shared.sdk = new Stytch.Client({
       project_id,
       secret,
-      env: 'live' === options.env ? Stytch.envs.live : Stytch.envs.test
+      env: 'live' === options.env ? Stytch.envs.live : Stytch.envs.test,
+      agent,
     })
   })
 

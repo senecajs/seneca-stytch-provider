@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Pkg = require('../package.json');
 const Stytch = require('stytch');
+const https = require('https');
 function check_status(res) {
     res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null;
 }
@@ -110,7 +111,11 @@ function StytchProvider(options) {
                                 res = err_res;
                             }
                             check_status.call(this, res);
-                            return entize(res);
+                            return entize(res, {
+                                field: {
+                                    id: { src: 'user_id' }
+                                }
+                            });
                         }
                     },
                 }
@@ -125,10 +130,14 @@ function StytchProvider(options) {
         }
         let project_id = res.keymap.project_id.value;
         let secret = res.keymap.secret.value;
+        const agent = new https.Agent({
+            keepAlive: true,
+        });
         seneca.shared.sdk = new Stytch.Client({
             project_id,
             secret,
-            env: 'live' === options.env ? Stytch.envs.live : Stytch.envs.test
+            env: 'live' === options.env ? Stytch.envs.live : Stytch.envs.test,
+            agent,
         });
     });
     return {
