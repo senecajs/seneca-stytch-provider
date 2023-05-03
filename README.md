@@ -114,7 +114,9 @@ seneca.use('StytchProvider', { name: value, ... })
 ## Action Patterns
 
 * [role:entity,base:stytch,cmd:load,name:repo,zone:provider](#-roleentitybasestytchcmdloadnamerepozoneprovider-)
+* [role:entity,base:stytch,cmd:list,name:repo,zone:provider](#-roleentitybasestytchcmdsavenamerepozoneprovider-)
 * [role:entity,base:stytch,cmd:save,name:repo,zone:provider](#-roleentitybasestytchcmdsavenamerepozoneprovider-)
+* [role:entity,base:stytch,cmd:remove,name:repo,zone:provider](#-roleentitybasestytchcmdsavenamerepozoneprovider-)
 * [sys:provider,get:info,provider:stytch](#-sysprovidergetinfoproviderstytch-)
 
 
