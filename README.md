@@ -55,20 +55,29 @@ const seneca = Seneca()
   .use('stytch-provider')
 
 // 'provider/stytch/user':
+
+// load
 let user = await seneca.entity('provider/stytch/user')
   .load$('<stytch-user-id>')
 
 Console.log('USER', user)
 
-user.user = { email: 'alice@example.com' }
+user.user = { name: { first_name: 'Alice' } }
 user = await user.save$()
 
-Console.log('SAVED USER', board)
+Console.log('UPDATED USER', user)
 
+// save
+let user_new = await seneca.entity('provider/stytch/user').save$({ user: { email: 'alice@example.com' } })
+
+Console.log('NEW USER', user_new)
+
+// list
 let user_list = await seneca.entity('provider/stytch/user').list$()
 
 Console.log('USER LIST', user_list)
 
+// remove
 let remove_user = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
 
 Console.log('REMOVED USER', remove_user)
