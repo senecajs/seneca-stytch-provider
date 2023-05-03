@@ -87,7 +87,7 @@ Console.log('REMOVED USER', remove_user)
 ## Install
 
 ```sh
-$ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider
+$ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider seneca-promisify
 ```
 
 
