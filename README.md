@@ -54,6 +54,7 @@ const seneca = Seneca()
   })
   .use('stytch-provider')
 
+// 'provider/stytch/user':
 let user = await seneca.entity('provider/stytch/user')
   .load$('<stytch-user-id>')
 
