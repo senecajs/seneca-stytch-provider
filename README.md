@@ -67,7 +67,7 @@ Console.log('UPDATED BOARD', board)
 ## Install
 
 ```sh
-$ npm install @seneca/stytch-provider @seneca/env
+$ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider
 ```
 
 
