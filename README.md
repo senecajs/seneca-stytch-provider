@@ -52,15 +52,15 @@ Seneca()
   })
   .use('stytch-provider')
 
-let board = await seneca.entity('provider/stytch/board')
-  .load$('<stytch-board-id>')
+let user = await seneca.entity('provider/stytch/user')
+  .load$('<stytch-user-id>')
 
-Console.log('BOARD', board)
+Console.log('USER', user)
 
-board.desc = 'New description'
-board = await board.save$()
+user.user = { email: 'alice@example.com' }
+user = await user.save$()
 
-Console.log('UPDATED BOARD', board)
+Console.log('SAVED USER', board)
 
 ```
 
