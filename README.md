@@ -140,6 +140,10 @@ seneca.use('StytchProvider', { name: value, ... })
 
 Load Stytch repository data into an entity.
 
+----------
+### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
+
+List Stytch users into an entity.
 
 
 ----------
@@ -147,6 +151,10 @@ Load Stytch repository data into an entity.
 
 Save/Update Stytch user data from an entity.
 
+----------
+### &laquo; `role:entity,base:stytch,cmd:remove,name:user,zone:provider` &raquo;
+
+Remove Stytch user from an entity.
 
 
 ----------
