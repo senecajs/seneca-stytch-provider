@@ -32,22 +32,22 @@ NOTE: underlying third party SDK needs to be replaced as out of date and has a s
 
 // Setup - get the key value (<SECRET>) separately from a vault or
 // environment variable.
-const seneca = Seneca()
+const seneca = Seneca({ legacy: false })
   .use('promisify')
   .use('entity')
   // Get API keys using the seneca-env plugin
   .use('env', {
     var: {
-      $STYTCH_APIKEY: String,
-      $STYTCH_USERTOKEN: String,
+      $STYTCH_PROJECT_ID: String,
+      $STYTCH_SECRET: String,
     }
   })
   .use('provider', {
     provider: {
       stytch: {
         keys: {
-          apikey: { value: '$STYTCH_APIKEY' },
-          usertoken: { value: '$STYTCH_USERTOKEN' },
+          project_id: { value: '$STYTCH_PROJECT_ID' },
+          secret: { value: '$STYTCH_SECRET' },
         }
       }
     }
