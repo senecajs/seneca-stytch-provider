@@ -50,18 +50,11 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
 
-	      q = Object.keys(q).reduce((acc: any, key: any) => {
-		if(key.endsWith('$')) {
-		  key = key.replace(/.$/, '')
-		  acc[key] = q[key+'$']
-		} else acc[key] = q[key]
-		return acc
-	      }, {})
 	      let res: any = null
 
 	      try {
                 res = await this.shared.sdk.users.search(q)
-	      }catch(err_res) {
+	      } catch(err_res) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
@@ -70,9 +63,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
                 field: {
                   id: { src: 'user_id' }
                 }
-	      })
-
-	      )
+	      }))
               return list
             }
           },
@@ -87,7 +78,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 
 	      try {
                 res = await this.shared.sdk.users.get(id)
-	      }catch(err_res) {
+	      } catch(err_res) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
@@ -121,7 +112,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 
 	      try {
                 res = await this.shared.sdk.users[api_call](...params)
-	      }catch(err_res) {
+	      } catch(err_res) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
@@ -143,7 +134,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      id == null ? this.fail('invalid id') : null
 	      try {
                 res = await this.shared.sdk.users.delete(id)
-	      }catch(err_res) {
+	      } catch(err_res) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
@@ -167,28 +158,18 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
             action: async function(this: any, entize: any, msg: any) {
               let q = msg.q || {}
 	      
-              q = Object.keys(q).reduce((acc: any, key: any) => {
-                if(key.endsWith('$')) {
-                  key = key.replace(/.$/, '')
-                  acc[key] = q[key+'$']
-                } else acc[key] = q[key]
-                return acc
-              }, {})
-
-
 	      let res: any = null
 
 	      try {
                 res = await this.shared.sdk.sessions.get(q)
-	      }catch(err_res) {
+	      } catch(err_res) {
 		res = err_res
 	      }
 	      check_status.call(this, res)
-	      console.log(res)
+	      // console.log(res)
 	      return res.sessions.map((data: any) => entize(data))
-	      
-	      
             }
+
           },
           
         }
