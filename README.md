@@ -64,7 +64,7 @@ user = await user.save$()
 
 Console.log('SAVED USER', board)
 
-let user_list = await seneca.entity('provider/stytch/user')
+let user_list = await seneca.entity('provider/stytch/user').list$()
 
 Console.log('USER LIST', user_list)
 
