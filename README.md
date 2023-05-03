@@ -64,6 +64,14 @@ user = await user.save$()
 
 Console.log('SAVED USER', board)
 
+let user_list = await seneca.entity('provider/stytch/user')
+
+Console.log('USER LIST', user_list)
+
+let remove_user = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
+
+Console.log('REMOVED USER', remove_user)
+
 ```
 
 ## Install
