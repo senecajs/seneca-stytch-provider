@@ -58,7 +58,7 @@ describe('stytch-provider', () => {
     const seneca = await makeSeneca()
     let name = "Alice"
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit$: 1})
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
     let user = await seneca.entity('provider/stytch/user').load$(list[0].id)
     user.user = { name: { first_name: name } }
     let save = await user.save$()
@@ -72,8 +72,8 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit$: 1})
-    console.log( await seneca.entity('provider/stytch/session').list$({ user_id$: list[0].id }) )
+    // const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
+    // console.log( await seneca.entity('provider/stytch/session').list$({ user_id: 'user-test-2d5fcdf8-b549-44e5-ac2a-3d6a1043b9dc' }) )
   })
 
 
@@ -81,7 +81,7 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit$: 10})
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 10})
     expect(list.length > 0).toBeTruthy()
   })
 
@@ -89,7 +89,7 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit$: 1})
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
     let remove = await seneca.entity('provider/stytch/user').remove$(list[0].id)
 
     expect(remove.status_code >= 200 && remove.status_code < 300).toBeTruthy()
