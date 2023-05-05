@@ -143,6 +143,11 @@ let user_list = await seneca.entity('provider/stytch/user').list$()
 
 Console.log('USER LIST', user_list)
 ```
+The Stytch list users body parameters are also, by default, inherited by this action pattern. So:
+
+```js
+let user_list = await seneca.entity('provider/stytch/user').list$({ limit: Number }) // specify your Stytch parameters
+```
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
