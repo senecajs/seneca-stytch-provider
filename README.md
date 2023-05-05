@@ -39,7 +39,7 @@ const seneca = Seneca({ legacy: false })
   // Get API keys using the seneca-env plugin
   .use('env', {
     var: {
-      $STYTCH_PROJECT_ID: String,
+      $STYTCH_PROJECTID: String,
       $STYTCH_SECRET: String,
     }
   })
@@ -47,7 +47,7 @@ const seneca = Seneca({ legacy: false })
     provider: {
       stytch: {
         keys: {
-          project_id: { value: '$STYTCH_PROJECT_ID' },
+          project_id: { value: '$STYTCH_PROJECTID' },
           secret: { value: '$STYTCH_SECRET' },
         }
       }
