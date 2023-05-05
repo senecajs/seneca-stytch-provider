@@ -139,6 +139,7 @@ let user = await seneca.entity('provider/stytch/user')
 
 Console.log('USER', user)
 ```
+Replies With Type: ```<Entity>``` where ```Entity``` is  a set of data fields determined by the sdk and turned into a seneca data entity object.
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
@@ -155,7 +156,7 @@ The Stytch list users body parameters are also, by default, inherited by this ac
 ```js
 await seneca.entity('provider/stytch/user').list$({ limit: Number }) // specify your Stytch parameters
 ```
-Replies With type: ```<Array>``` where ```Array``` is a list of Stytch users
+Replies With Type: ```<Array>``` where ```Array``` is a list of Stytch users
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
