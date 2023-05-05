@@ -55,8 +55,8 @@ const seneca = Seneca({ legacy: false })
   })
   // load up the 'provider/stytch/user' entity
   .use('stytch-provider')
-// it is recommended that you get seneca instance 'ready' before moving on
-await seneca.ready()
+  // it is recommended that you get seneca instance 'ready' before moving on 
+  await seneca.ready()
 ```
 
 ## Install
