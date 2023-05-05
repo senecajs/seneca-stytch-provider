@@ -121,6 +121,8 @@ The format for an action pattern used by `seneca.entity` equals to: `'provider/<
 
 `cmd` is a seneca command provided for a given action pattern: `load|list|save|remove`.
 
+more info on: https://github.com/senecajs/seneca-entity
+
 <!--END:action-list-->
 
 <!--START:action-desc-->
