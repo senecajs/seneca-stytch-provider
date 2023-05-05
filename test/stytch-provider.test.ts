@@ -72,8 +72,9 @@ describe('stytch-provider', () => {
     if (!Config) return;
     const seneca = await makeSeneca()
 
-    // const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
-    // console.log( await seneca.entity('provider/stytch/session').list$({ user_id: 'user-test-2d5fcdf8-b549-44e5-ac2a-3d6a1043b9dc' }) )
+    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
+    const id = list[0].id
+    console.log( await seneca.entity('provider/stytch/session').list$({ user_id: id, }) )
   })
 
 
@@ -109,7 +110,7 @@ async function makeSeneca() {
       // debug: true,
       file: [__dirname + '/local-env.js;?'],
       var: {
-        $STYTCH_PROJECT_ID: String,
+        $STYTCH_PROJECTID: String,
         $STYTCH_SECRET: String,
       }
     })
@@ -117,7 +118,7 @@ async function makeSeneca() {
       provider: {
         stytch: {
           keys: {
-            project_id: { value: '$STYTCH_PROJECT_ID' },
+            project_id: { value: '$STYTCH_PROJECTID' },
             secret: { value: '$STYTCH_SECRET' },
           }
         }
