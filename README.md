@@ -69,8 +69,8 @@ $ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider
 
 
 ## Options
-
 * `debug` : boolean <i><small>false</small></i>
+* `env` : string <i><small>'test' | 'live'</small></i>
 
 
 Set plugin options when loading with:
