@@ -13,13 +13,12 @@ const start = async () => {
   const port = 3000
   const path = `http://localhost:${port}`
 
-  let sdk = seneca.export('StytchProvider/sdk')()
   let plugin_info = await seneca.post('sys:provider,provider:stytch,get:info')
 
   console.log(plugin_info)
 
   configureApp(app)
-  setUpRoutes(app, sdk, path)
+  setUpRoutes(app, seneca, path)
   app.listen(port, () => {
     console.log(`Listening on ${path}`)
   })
@@ -49,12 +48,15 @@ async function makeSeneca(opts) {
       }
     })
     .use(StytchProvider)
+    .use('user')
 
   await seneca.ready()
   return seneca
 }
 
-function setUpRoutes(app, sdk, path) {
+function setUpRoutes(app, seneca, path) {
+  let sdk = seneca.export('StytchProvider/sdk')()
+
   const magicLinkUrl = `${path}/authenticate`
 
   app.get('/', async (req, res) => {

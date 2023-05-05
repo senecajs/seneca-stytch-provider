@@ -10,10 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@seneca/user": "^6.2.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
     "seneca": ">=3",
     "seneca-entity": ">=18",
-    "seneca-promisify": ">=3",
-    "ejs": "^3.1.9",
-    "express": "^4.18.2"
+    "seneca-promisify": ">=3"
   }
 }
