@@ -119,7 +119,7 @@ In an action pattern, `role` is the seneca plugin 'entity' - thus: `seneca.entit
 
 The format for an action pattern used by `seneca.entity` equals to: `'provider/<base>/<name>'`
 
-`cmd` is a seneca command provided for a given action pattern: `load|list|save|remove`.
+`cmd` is a seneca message provided by seneca-entity for a given action pattern: `load|list|save|remove`.
 
 more info on: https://github.com/senecajs/seneca-entity
 
