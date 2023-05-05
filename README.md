@@ -148,6 +148,7 @@ The Stytch list users body parameters are also, by default, inherited by this ac
 ```js
 let user_list = await seneca.entity('provider/stytch/user').list$({ limit: Number }) // specify your Stytch parameters
 ```
+Replies with type: ```<Array>``` where ```Array``` is a list of Stytch users
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
