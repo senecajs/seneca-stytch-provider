@@ -53,6 +53,7 @@ const seneca = Seneca({ legacy: false })
       }
     }
   })
+  // load up the 'provider/stytch/user' entity
   .use('stytch-provider')
 ```
 
