@@ -151,7 +151,7 @@ The Stytch list users body parameters are also, by default, inherited by this ac
 ```js
 await seneca.entity('provider/stytch/user').list$({ limit: Number }) // specify your Stytch parameters
 ```
-Replies with type: ```<Array>``` where ```Array``` is a list of Stytch users
+Replies With type: ```<Array>``` where ```Array``` is a list of Stytch users
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
@@ -169,6 +169,21 @@ Remove Stytch user from an entity.
 
 Get information about the provider.
 
+```js
+let pluginInfo = await seneca.post('sys:provider,provider:stytch,get:info')
+```
+Replies With
+```
+{
+  ok: true,
+  name: '<provider-name>',
+  version: '<provider-version>',
+  sdk: {
+    name: '<sdk-name>',
+    version: '<sdk-version>',
+  }
+}
+```
 
 
 ----------
