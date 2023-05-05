@@ -85,6 +85,7 @@ seneca.use('StytchProvider', { name: value, ... })
 ## Exporting and Extending
 You can export the sdk instance and use it in your own seneca message.
 
+for example
 ```js
 let sdk = seneca.export('StytchProvider/sdk')()
 
@@ -98,7 +99,7 @@ seneca.message('auth:stytch,sys:user', async function (msg, reply) {
 
 ```
 
-for example
+
 
 
 
