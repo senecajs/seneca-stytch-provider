@@ -34,7 +34,7 @@ async function makeSeneca(opts) {
     .use('entity')
     .use('env', {
       var: {
-        $STYTCH_PROJECT_ID: String,
+        $STYTCH_PROJECTID: String,
         $STYTCH_SECRET: String,
       }
     })
@@ -42,7 +42,7 @@ async function makeSeneca(opts) {
       provider: {
         stytch: {
           keys: {
-            project_id: { value: '$STYTCH_PROJECT_ID' },
+            project_id: { value: '$STYTCH_PROJECTID' },
             secret: { value: '$STYTCH_SECRET' },
           }
         }
@@ -67,26 +67,26 @@ function setUpRoutes(app, sdk, path) {
       login_magic_link_url: magicLinkUrl,
       signup_magic_link_url: magicLinkUrl,
     }
-    sdk.magicLinks.email.loginOrCreate(params)
-      .then(
-        res.render('emailSent')
-      )
-      .catch(err => {
-        console.log(err)
-        res.render('loginOrSignUp')
-      })
+    try {
+      let result = await sdk.magicLinks.email.loginOrCreate(params)
+      res.render('emailSent')
+    } catch(err) {
+      console.log(err)
+      res.render('loginOrSignUp')
+    }
+
   })
 
   app.get('/authenticate', async (req, res) => {
     const queryObject = Url.parse(req.url, true).query
-    sdk.magicLinks.authenticate(queryObject.token)
-      .then(
-        res.render('loggedIn')
-      )
-      .catch(err => {
-        console.log(err)
-        res.render('loginOrSignUp')
-      })
+    try {
+      let result = await sdk.magicLinks.authenticate(queryObject.token)
+      console.log('auth result: ', result)
+      res.render('loggedIn')
+    } catch(err) {
+      console.log(err)
+      res.render('loginOrSignUp')
+    }
   })
 
 }
