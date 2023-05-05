@@ -139,7 +139,7 @@ let user = await seneca.entity('provider/stytch/user')
 
 Console.log('USER', user)
 ```
-Replies With Type: ```<Entity>``` where ```Entity``` is a set of data fields determined by the sdk and is turned into a seneca data entity object.
+<p name="entity-object"> Replies With Type: ```<Entity>``` where ```Entity``` is a set of data fields determined by the sdk and is turned into a seneca data entity object. </p>
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
@@ -163,7 +163,7 @@ Replies With Type: ```<Array<Entity>>``` where ```Array<Entity>``` is a list of 
 
 Save/Update Stytch user data from an entity.
 
-Replies With Type: ```<Entity>``` where ```Entity``` is a set of data fields determined by the sdk and is turned into a seneca data entity object.
+<p>Check out: <a href="#entity-object">Entity</a><br> </p>
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:remove,name:user,zone:provider` &raquo;
