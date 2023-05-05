@@ -115,7 +115,7 @@ seneca.message('auth:stytch,sys:user', async function (msg, reply) {
 * [role:entity,base:stytch,cmd:remove,name:user,zone:provider](#-roleentitybasestytchcmdremovenameuserzoneprovider-)
 * [sys:provider,get:info,provider:stytch](#-sysprovidergetinfoproviderstytch-)
 
-In an action pattern, `role` is the seneca plugin 'entity' - thus: `seneca.entity`.
+In an action pattern, `role` is the seneca plugin `seneca-entity` - thus: `entity`.
 
 The format for an action pattern used by `seneca.entity` equals to: `'provider/<base>/<name>'`
 
