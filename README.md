@@ -170,7 +170,7 @@ Save/Update Stytch user data from an entity.
 
 Remove Stytch user from an entity.
 
-Replies With Type: ```<Entity>``` where ```Entity``` is a set of data fields determined by the sdk and is turned into a seneca data entity object.
+<p>Check out: <a href="#entity-object">Entity</a><br> </p>
 
 
 ----------
