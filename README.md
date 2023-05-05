@@ -33,6 +33,7 @@ NOTE: underlying third party SDK needs to be replaced as out of date and has a s
 // Setup - get the key value (<SECRET>) separately from a vault or
 // environment variable.
 const seneca = Seneca({ legacy: false })
+  .test() // sets up the Seneca instance for testing: easier to read layout
   .use('promisify')
   .use('entity')
   // Get API keys using the seneca-env plugin
