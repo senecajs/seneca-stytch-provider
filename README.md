@@ -129,13 +129,20 @@ Load Stytch repository data into an entity.
 ```js
 let user = await seneca.entity('provider/stytch/user')
   .load$('<stytch-user-id>')
+
+Console.log('USER', user)
 ```
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
 
 List Stytch users into an entity.
+```js
+// list
+let user_list = await seneca.entity('provider/stytch/user').list$()
 
+Console.log('USER LIST', user_list)
+```
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
