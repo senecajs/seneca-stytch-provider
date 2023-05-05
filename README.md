@@ -139,7 +139,7 @@ let user = await seneca.entity('provider/stytch/user')
 
 Console.log('USER', user)
 ```
-<p name="entity-object"> Replies With Type: ```<Entity>``` where ```Entity``` is a set of data fields determined by the sdk and is turned into a seneca data entity object. </p>
+<p name="entity-object"> Replies With Type: <code><Entity></code> where <code>Entity</code> is a set of data fields determined by the sdk and is turned into a seneca data entity object. </p>
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
