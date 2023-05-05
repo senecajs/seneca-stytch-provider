@@ -58,6 +58,26 @@ function setUpRoutes(app, seneca, path) {
   let sdk = seneca.export('StytchProvider/sdk')()
 
   const magicLinkUrl = `${path}/authenticate`
+ 
+  // an example of using seneca.prior with register:user to extend its functionality
+  seneca.message('sys:user,register:user', async function (msg, reply) {
+   let params = msg.params || {}
+
+   let result = await sdk.magicLinks.email.loginOrCreate(params)
+
+   let out = await this.prior({ ...msg, email: params.email })
+   out.res = result
+   return out
+
+  })
+
+  seneca.message('auth:stytch,sys:user', async function (msg, reply) {
+    let token = msg.token || ''
+
+    let result = await sdk.magicLinks.authenticate(token)
+
+    return result
+  })
 
   app.get('/', async (req, res) => {
     res.render('loginOrSignUp')
@@ -70,7 +90,7 @@ function setUpRoutes(app, seneca, path) {
       signup_magic_link_url: magicLinkUrl,
     }
     try {
-      let result = await sdk.magicLinks.email.loginOrCreate(params)
+      let result = await seneca.post('sys:user,register:user', { params } )
       res.render('emailSent')
     } catch(err) {
       console.log(err)
@@ -82,8 +102,7 @@ function setUpRoutes(app, seneca, path) {
   app.get('/authenticate', async (req, res) => {
     const queryObject = Url.parse(req.url, true).query
     try {
-      let result = await sdk.magicLinks.authenticate(queryObject.token)
-      console.log('auth result: ', result)
+      let result = await seneca.post('auth:stytch,sys:user', { token: queryObject.token })
       res.render('loggedIn')
     } catch(err) {
       console.log(err)
