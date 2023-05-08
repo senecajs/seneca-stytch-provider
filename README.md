@@ -165,6 +165,18 @@ Replies With Type: ```<Array<Entity>>``` where ```Array<Entity>``` is a list of 
 
 Save/Update Stytch user data from an entity.
 
+```js
+  // Save and add data
+  let user = await seneca.entity('provider/stytch/user')
+  let saved = await user.save$({ user: { email: 'alice@example.com' } })
+  Console.log('SAVED USER', saved)
+  
+  // Update and add data
+  let user_loaded = await user.load$('<stytch-user-id>')
+  let updated = await user.data$({ user: { name: { first_name: name} } }).save$()
+  Console.log('UPDATED USER', save)
+```
+
 <p>Check out: <a href="#entity">Entity</a><br> </p>
 
 ----------
