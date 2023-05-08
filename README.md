@@ -85,7 +85,7 @@ seneca.use('StytchProvider', { name: value, ... })
 ```
 
 ## Exporting and Extending
-You can export the sdk instance and use it in your own seneca message.
+You can export the SDK instance and use it in your own seneca message.
 
 for example
 ```js
@@ -139,7 +139,7 @@ let user = await seneca.entity('provider/stytch/user')
 
 Console.log('USER', user)
 ```
-<p name="entity-object"> Replies With Type: <i>&lt;Entity&gt;</i> where <code>Entity</code> is a set of data fields determined by the sdk and is turned into a seneca data entity object. </p>
+<p name="entity"> Replies With Type: <i>&lt;Entity&gt;</i> where <code>Entity</code> is a set of data fields determined by the sdk and is turned into a seneca data entity. </p>
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
@@ -163,14 +163,14 @@ Replies With Type: ```<Array<Entity>>``` where ```Array<Entity>``` is a list of 
 
 Save/Update Stytch user data from an entity.
 
-<p>Check out: <a href="#entity-object">Entity</a><br> </p>
+<p>Check out: <a href="#entity">Entity</a><br> </p>
 
 ----------
 ### &laquo; `role:entity,base:stytch,cmd:remove,name:user,zone:provider` &raquo;
 
 Remove Stytch user from an entity.
 
-<p>Check out: <a href="#entity-object">Entity</a><br> </p>
+<p>Check out: <a href="#entity">Entity</a><br> </p>
 
 
 ----------
