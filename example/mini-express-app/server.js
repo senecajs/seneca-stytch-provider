@@ -7,18 +7,17 @@ const Seneca = require('seneca')
 const StytchProvider = require('../../')
 
 
-const start = async () => {
-  const app = Express()
+const port = 3000
+const path = `http://localhost:${port}`
+
+async function start() {
   const seneca = await makeSeneca({ legacy: false })
-  const port = 3000
-  const path = `http://localhost:${port}`
+  const app = makeExpress(seneca)
 
   let plugin_info = await seneca.post('sys:provider,provider:stytch,get:info')
 
   console.log(plugin_info)
 
-  configureApp(app)
-  setUpRoutes(app, seneca, path)
   app.listen(port, () => {
     console.log(`Listening on ${path}`)
   })
@@ -51,14 +50,10 @@ async function makeSeneca(opts) {
     .use('user')
 
   await seneca.ready()
-  return seneca
-}
 
-function setUpRoutes(app, seneca, path) {
   let sdk = seneca.export('StytchProvider/sdk')()
-
   const magicLinkUrl = `${path}/authenticate`
- 
+
   // an example of using seneca.prior with register:user to extend its functionality
   seneca.message('sys:user,register:user', async function (msg, reply) {
    let params = msg.params || {}
@@ -79,6 +74,15 @@ function setUpRoutes(app, seneca, path) {
     return result
   })
 
+  return seneca
+}
+
+function makeExpress(seneca) {
+  const app = Express()
+  const magicLinkUrl = `${path}/authenticate`
+
+  configureApp(app)
+ 
   app.get('/', async (req, res) => {
     res.render('loginOrSignUp')
   })
@@ -110,6 +114,7 @@ function setUpRoutes(app, seneca, path) {
     }
   })
 
+  return app
 }
 
 function configureApp(app) {
