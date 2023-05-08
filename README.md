@@ -7,7 +7,7 @@ Provides access to the Stytch API using the Seneca *provider*
 convention. Stytch API entities are represented as Seneca entities so
 that they can be accessed using the Seneca entity API and messages.
 
-See [seneca-entity](senecajs/seneca-entity) and the [Seneca Data
+See [seneca-entity]([senecajs/seneca-entity](https://github.com/senecajs/seneca-entity)) and the [Seneca Data
 Entities
 Tutorial](https://senecajs.org/docs/tutorials/understanding-data-entities.html) for more details on the Seneca entity API.
 
