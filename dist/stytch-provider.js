@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Pkg = require('../package.json');
 const Stytch = require('stytch');
 const https = require('https');
-function check_status(res) {
-    res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null;
+function check_status(seneca, res) {
+    res['status_code'] >= 300 ? seneca.fail('stytch_response', JSON.stringify(res)) : null;
 }
 function StytchProvider(options) {
     const seneca = this;
@@ -40,7 +40,7 @@ function StytchProvider(options) {
                             catch (err_res) {
                                 res = err_res;
                             }
-                            check_status.call(this, res);
+                            check_status(seneca, res);
                             let list = res.results.map((data) => entize(data, {
                                 field: {
                                     id: { src: 'user_id' }
@@ -54,14 +54,14 @@ function StytchProvider(options) {
                             var _a;
                             let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
                             let res = null;
-                            id == null ? this.fail('invalid id') : null;
+                            id == null ? this.fail('invalid_id') : null;
                             try {
                                 res = await this.shared.sdk.users.get(id);
                             }
                             catch (err_res) {
                                 res = err_res;
                             }
-                            check_status.call(this, res);
+                            check_status(seneca, res);
                             // TODO: something like: (entize({'res': res} as ProviderRes)) for more structure?
                             return entize(res, {
                                 field: {
@@ -90,7 +90,7 @@ function StytchProvider(options) {
                             catch (err_res) {
                                 res = err_res;
                             }
-                            check_status.call(this, res);
+                            check_status(seneca, res);
                             return entize(res, {
                                 field: {
                                     id: { src: 'user_id' }
@@ -103,14 +103,14 @@ function StytchProvider(options) {
                             var _a;
                             let id = (_a = msg === null || msg === void 0 ? void 0 : msg.q) === null || _a === void 0 ? void 0 : _a.id;
                             let res = null;
-                            id == null ? this.fail('invalid id') : null;
+                            id == null ? this.fail('invalid_id') : null;
                             try {
                                 res = await this.shared.sdk.users.delete(id);
                             }
                             catch (err_res) {
                                 res = err_res;
                             }
-                            check_status.call(this, res);
+                            check_status(seneca, res);
                             return entize(res, {
                                 field: {
                                     id: { src: 'user_id' }
@@ -132,7 +132,7 @@ function StytchProvider(options) {
                             catch (err_res) {
                                 res = err_res;
                             }
-                            check_status.call(this, res);
+                            check_status(seneca, res);
                             // console.log(res)
                             return res.sessions.map((data) => entize(data));
                         }
@@ -149,6 +149,9 @@ function StytchProvider(options) {
         }
         let project_id = res.keymap.project_id.value;
         let secret = res.keymap.secret.value;
+        // avoid the cost of establishing a new connection with
+        // the Stytch servers on every request
+        // https://github.com/stytchauth/stytch-node#customizing-the-https-agent
         const agent = new https.Agent({
             keepAlive: true,
         });

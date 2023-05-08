@@ -12,8 +12,8 @@ type StytchProviderOptions = {
   debug: boolean,
 }
 
-function check_status(this: any, res: any) {
-  res['status_code'] >= 300 ? this.fail(JSON.stringify(res)) : null
+function check_status(seneca: any, res: any) {
+  res['status_code'] >= 300 ? seneca.fail('stytch_response',  JSON.stringify(res)) : null
 }
 
 function StytchProvider(this: any, options: StytchProviderOptions) {
@@ -57,7 +57,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      } catch(err_res) {
 		res = err_res
 	      }
-	      check_status.call(this, res)
+	      check_status(seneca, res)
 
 	      let list = res.results.map((data: any) => entize(data, {
                 field: {
@@ -73,15 +73,14 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      let id = msg?.q?.id
 	      let res: any = null
 
-	      id == null ? this.fail('invalid id') : null
-
+	      id == null ? this.fail('invalid_id') : null
 
 	      try {
                 res = await this.shared.sdk.users.get(id)
 	      } catch(err_res) {
 		res = err_res
 	      }
-	      check_status.call(this, res)
+	      check_status(seneca, res)
 
 	      // TODO: something like: (entize({'res': res} as ProviderRes)) for more structure?
 	      return entize(res, {
@@ -115,7 +114,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      } catch(err_res) {
 		res = err_res
 	      }
-	      check_status.call(this, res)
+	      check_status(seneca, res)
               
 	      return entize(res, {
                 field: {
@@ -131,13 +130,13 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      let id = msg?.q?.id
 	      let res: any = null
 
-	      id == null ? this.fail('invalid id') : null
+	      id == null ? this.fail('invalid_id') : null
 	      try {
                 res = await this.shared.sdk.users.delete(id)
 	      } catch(err_res) {
 		res = err_res
 	      }
-	      check_status.call(this, res)
+	      check_status(seneca, res)
 
 	      return entize(res, {
                 field: {
@@ -165,7 +164,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 	      } catch(err_res) {
 		res = err_res
 	      }
-	      check_status.call(this, res)
+	      check_status(seneca, res)
 	      // console.log(res)
 	      return res.sessions.map((data: any) => entize(data))
             }
@@ -191,6 +190,9 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
     let project_id = res.keymap.project_id.value
     let secret = res.keymap.secret.value
 
+    // avoid the cost of establishing a new connection with
+    // the Stytch servers on every request
+    // https://github.com/stytchauth/stytch-node#customizing-the-https-agent
     const agent = new https.Agent({
       keepAlive: true,
     })
