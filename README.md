@@ -99,7 +99,7 @@ seneca.use('StytchProvider', { name: value, ... })
 
 In an action pattern, `role` is the seneca plugin `seneca-entity` - thus: `entity`. It is the `role` of data persistence.
 
-The format for an action pattern used by `seneca-entity` equals to: `'provider/<base>/<name>'`
+The format for an action pattern used by `seneca-entity` equals to: `'<zone>/<base>/<name>'`
 
 This is, more specifically: [the entity namespace](https://senecajs.org/docs/tutorials/understanding-data-entities.html#zone-base-and-name-the-entity-namespace) concept.
 
