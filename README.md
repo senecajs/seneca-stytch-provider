@@ -173,7 +173,7 @@ Save/Update Stytch user data from an entity.
   
   // Update and add data
   let user_loaded = await user.load$('<stytch-user-id>')
-  let updated = await user.data$({ user: { name: { first_name: name} } }).save$()
+  let updated = await user.data$({ user: { name: { first_name: 'Alice' } } }).save$()
   Console.log('UPDATED USER', save)
 ```
 
