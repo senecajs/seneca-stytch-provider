@@ -184,6 +184,10 @@ Save/Update Stytch user data from an entity.
 
 Remove Stytch user from an entity.
 
+```js
+  let removed = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
+```
+
 <p>Check out: <a href="#entity">Entity</a><br> </p>
 
 
