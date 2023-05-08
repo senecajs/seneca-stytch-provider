@@ -209,7 +209,7 @@ seneca.message('auth:stytch,sys:user', async function (msg, reply) {
 
   let out = await sdk.magicLinks.authenticate(token)
 
-  return out
+  return { ok: true, out }
 })
 
 ```
