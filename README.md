@@ -174,7 +174,7 @@ Console.log('SAVED USER', saved)
 // Update and add data
 let user_loaded = await user.load$('<stytch-user-id>')
 let updated = await user.data$({ user: { name: { first_name: 'Alice' } } }).save$()
-Console.log('UPDATED USER', save)
+Console.log('UPDATED USER', updated)
 ```
 
 <p>Check out: <a href="#entity">Entity</a><br> </p>
