@@ -117,7 +117,9 @@ seneca.message('auth:stytch,sys:user', async function (msg, reply) {
 
 In an action pattern, `role` is the seneca plugin `seneca-entity` - thus: `entity`. It is the `role` of data persistence.
 
-The format for an action pattern used by `seneca.entity` equals to: `'provider/<base>/<name>'`
+The format for an action pattern used by `seneca-entity` equals to: `'provider/<base>/<name>'`
+
+This is, more specifically: [the entity namespace](https://senecajs.org/docs/tutorials/understanding-data-entities.html#zone-base-and-name-the-entity-namespace) concept.
 
 `cmd` is a seneca property provided by `seneca-entity` for a given action pattern: `load|list|save|remove`.
 
