@@ -166,15 +166,15 @@ Replies With Type: ```<Array<Entity>>``` where ```Array<Entity>``` is a list of 
 Save/Update Stytch user data from an entity.
 
 ```js
-  // Save and add data
-  let user = await seneca.entity('provider/stytch/user')
-  let saved = await user.save$({ user: { email: 'alice@example.com' } })
-  Console.log('SAVED USER', saved)
-  
-  // Update and add data
-  let user_loaded = await user.load$('<stytch-user-id>')
-  let updated = await user.data$({ user: { name: { first_name: 'Alice' } } }).save$()
-  Console.log('UPDATED USER', save)
+// Save and add data
+let user = await seneca.entity('provider/stytch/user')
+let saved = await user.save$({ user: { email: 'alice@example.com' } })
+Console.log('SAVED USER', saved)
+
+// Update and add data
+let user_loaded = await user.load$('<stytch-user-id>')
+let updated = await user.data$({ user: { name: { first_name: 'Alice' } } }).save$()
+Console.log('UPDATED USER', save)
 ```
 
 <p>Check out: <a href="#entity">Entity</a><br> </p>
@@ -185,7 +185,7 @@ Save/Update Stytch user data from an entity.
 Remove Stytch user from an entity.
 
 ```js
-  let removed = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
+let removed = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
 ```
 
 <p>Check out: <a href="#entity">Entity</a><br> </p>
