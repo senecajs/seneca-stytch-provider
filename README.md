@@ -84,24 +84,6 @@ seneca.use('StytchProvider', { name: value, ... })
 
 ```
 
-## Exporting and Extending
-You can export the SDK instance and use it in your own seneca message.
-
-for example
-```js
-let sdk = seneca.export('StytchProvider/sdk')()
-
-seneca.message('auth:stytch,sys:user', async function (msg, reply) {
-  let token = msg.token
-
-  let out = await sdk.magicLinks.authenticate(token)
-
-  return out
-})
-
-```
-
-
 <!--END:options-->
 
 <!--START:action-list-->
@@ -215,5 +197,21 @@ Replies With
 
 ----------
 
+## Exporting and Extending
+You can export the SDK instance and use it in your own seneca message.
+
+for example
+```js
+let sdk = seneca.export('StytchProvider/sdk')()
+
+seneca.message('auth:stytch,sys:user', async function (msg, reply) {
+  let token = msg.token
+
+  let out = await sdk.magicLinks.authenticate(token)
+
+  return out
+})
+
+```
 
 <!--END:action-desc-->
