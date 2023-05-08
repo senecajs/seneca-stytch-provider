@@ -62,8 +62,8 @@ describe('stytch-provider', () => {
     let name = "Alice"
 
     let user = await seneca.entity('provider/stytch/user').load$(id)
-    user.user = { name: { first_name: name } }
-    let save = await user.save$()
+    // user.user = { name: { first_name: name } }
+    let save = await user.data$({ user: { name: { first_name: name} } }).save$()
     
     expect(save.id).toBeDefined()
     expect(save.user.name.first_name).toEqual(name)
