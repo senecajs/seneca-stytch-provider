@@ -18,6 +18,7 @@ if (Fs.existsSync(__dirname + '/local-config.js')) {
   Config = require('./local-config')
 }
 
+global.stytchShared = ({} as any)
 
 describe('stytch-provider', () => {
 
@@ -50,16 +51,17 @@ describe('stytch-provider', () => {
     // user.user = { email:  'alice@example.com' }
     let save = await user.save$({ user: { email: 'alice@example.com' } })
     expect(save.id).toBeDefined()
+    stytchShared.user_id = save.id
 
   })
 
   test('user-save-update', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
+    const id = stytchShared.user_id
     let name = "Alice"
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
-    let user = await seneca.entity('provider/stytch/user').load$(list[0].id)
+    let user = await seneca.entity('provider/stytch/user').load$(id)
     user.user = { name: { first_name: name } }
     let save = await user.save$()
     
@@ -71,9 +73,8 @@ describe('stytch-provider', () => {
   test('session-list', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
+    const id = stytchShared.user_id
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
-    const id = list[0].id
     console.log( await seneca.entity('provider/stytch/session').list$({ user_id: id, }) )
   })
 
@@ -89,9 +90,9 @@ describe('stytch-provider', () => {
   test('user-remove', async () => {
     if (!Config) return;
     const seneca = await makeSeneca()
+    const id = stytchShared.user_id
 
-    const list = await seneca.entity("provider/stytch/user").list$({limit: 1})
-    let remove = await seneca.entity('provider/stytch/user').remove$(list[0].id)
+    let remove = await seneca.entity('provider/stytch/user').remove$(id)
 
     expect(remove.status_code >= 200 && remove.status_code < 300).toBeTruthy()
     expect(remove.id).toBeDefined()
