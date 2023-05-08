@@ -132,7 +132,7 @@ more info on: https://github.com/senecajs/seneca-entity
 
 ### &laquo; `role:entity,base:stytch,cmd:load,name:user,zone:provider` &raquo;
 
-Load Stytch repository data into an entity.
+Load Stytch user data into an entity.
 ```js
 let user = await seneca.entity('provider/stytch/user')
   .load$('<stytch-user-id>')
