@@ -81,7 +81,9 @@ function makeExpress(seneca) {
   const app = Express()
   const magicLinkUrl = `${path}/authenticate`
 
-  configureApp(app)
+  app.use(BodyParser.urlencoded({ extended: true }))
+  app.use(Express.static('public'))
+  app.set('view engine', 'ejs')
  
   app.get('/', async (req, res) => {
     res.render('loginOrSignUp')
@@ -115,10 +117,4 @@ function makeExpress(seneca) {
   })
 
   return app
-}
-
-function configureApp(app) {
-  app.use(BodyParser.urlencoded({ extended: true }))
-  app.use(Express.static('public'))
-  app.set('view engine', 'ejs')
 }
