@@ -1,10 +1,10 @@
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 
-const Pkg = require('../package.json')
+const Https = require('https')
 
 const Stytch = require('stytch')
 
-const https = require('https')
+const Pkg = require('../package.json')
 
 
 type StytchProviderOptions = {
@@ -190,10 +190,10 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
     let project_id = res.keymap.project_id.value
     let secret = res.keymap.secret.value
 
-    // avoid the cost of establishing a new connection with
+    // Avoid the cost of establishing a new connection with
     // the Stytch servers on every request
     // https://github.com/stytchauth/stytch-node#customizing-the-https-agent
-    const agent = new https.Agent({
+    const agent = new Https.Agent({
       keepAlive: true,
     })
 

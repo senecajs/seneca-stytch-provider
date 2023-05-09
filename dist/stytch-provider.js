@@ -1,9 +1,9 @@
 "use strict";
 /* Copyright © 2022 Seneca Project Contributors, MIT License. */
 Object.defineProperty(exports, "__esModule", { value: true });
-const Pkg = require('../package.json');
+const Https = require('https');
 const Stytch = require('stytch');
-const https = require('https');
+const Pkg = require('../package.json');
 function check_status(seneca, res) {
     res['status_code'] >= 300 ? seneca.fail('stytch_response', JSON.stringify(res)) : null;
 }
@@ -149,10 +149,10 @@ function StytchProvider(options) {
         }
         let project_id = res.keymap.project_id.value;
         let secret = res.keymap.secret.value;
-        // avoid the cost of establishing a new connection with
+        // Avoid the cost of establishing a new connection with
         // the Stytch servers on every request
         // https://github.com/stytchauth/stytch-node#customizing-the-https-agent
-        const agent = new https.Agent({
+        const agent = new Https.Agent({
             keepAlive: true,
         });
         seneca.shared.sdk = new Stytch.Client({
