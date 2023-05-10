@@ -102,7 +102,7 @@ function StytchProvider(this: any, options: StytchProviderOptions) {
 
 	      let res: any = null
 
-	      api_call = id == null ?
+	      api_call = (null == id) ?
 	        (params = [ user ], 'create') : (params = [ id, user ], 'update')
 	      // invalid body parameters
 	      if(0 === Object.keys(user).length) {
