@@ -1,4 +1,4 @@
-declare type StytchProviderOptions = {
+type StytchProviderOptions = {
     env: string;
     debug: boolean;
 };

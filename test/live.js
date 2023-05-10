@@ -8,7 +8,7 @@ Seneca({ legacy: false })
     // debug: true,
     file: [__dirname + '/local-env.js;?'],
     var: {
-      STYTCH_PROJECT_ID: String,
+      STYTCH_PROJECTID: String,
       $STYTCH_SECRET: String,
     }
   })
@@ -16,7 +16,7 @@ Seneca({ legacy: false })
     provider: {
       stytch: {
         keys: {
-          project_id: { value: '$STYTCH_PROJECT_ID' },
+          project_id: { value: '$STYTCH_PROJECTID' },
           secret: { value: '$STYTCH_SECRET' },
         }
       }
