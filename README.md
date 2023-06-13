@@ -71,18 +71,9 @@ $ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider
 
 
 ## Options
-* `debug` : boolean <i><small>false</small></i>
-* `env` : string <i><small>'test' | 'live'</small></i>
 
+*None.*
 
-Set plugin options when loading with:
-```js
-
-
-seneca.use('StytchProvider', { name: value, ... })
-
-
-```
 
 <!--END:options-->
 
@@ -91,21 +82,13 @@ seneca.use('StytchProvider', { name: value, ... })
 
 ## Action Patterns
 
-* [role:entity,base:stytch,cmd:load,name:user,zone:provider](#-roleentitybasestytchcmdloadnameuserzoneprovider-)
-* [role:entity,base:stytch,cmd:list,name:user,zone:provider](#-roleentitybasestytchcmdlistnameuserzoneprovider-)
-* [role:entity,base:stytch,cmd:save,name:user,zone:provider](#-roleentitybasestytchcmdsavenameuserzoneprovider-)
-* [role:entity,base:stytch,cmd:remove,name:user,zone:provider](#-roleentitybasestytchcmdremovenameuserzoneprovider-)
-* [sys:provider,get:info,provider:stytch](#-sysprovidergetinfoproviderstytch-)
+* ["role":"entity","base":"stytch","cmd":"list","name":"session","zone":"provider"](#-roleentitybasestytchcmdlistnamesessionzoneprovider-)
+* ["role":"entity","base":"stytch","cmd":"list","name":"user","zone":"provider"](#-roleentitybasestytchcmdlistnameuserzoneprovider-)
+* ["role":"entity","base":"stytch","cmd":"load","name":"user","zone":"provider"](#-roleentitybasestytchcmdloadnameuserzoneprovider-)
+* ["role":"entity","base":"stytch","cmd":"remove","name":"user","zone":"provider"](#-roleentitybasestytchcmdremovenameuserzoneprovider-)
+* ["role":"entity","base":"stytch","cmd":"save","name":"user","zone":"provider"](#-roleentitybasestytchcmdsavenameuserzoneprovider-)
+* ["sys":"provider","get":"info","provider":"stytch"](#-sysprovidergetinfoproviderstytch-)
 
-In an action pattern, `role` is the seneca plugin `seneca-entity` - thus: `entity`. It is the `role` of data persistence.
-
-The format for an action pattern used by `seneca-entity` equals to: `'<zone>/<base>/<name>'`
-
-This is, more specifically: [the entity namespace](https://senecajs.org/docs/tutorials/understanding-data-entities.html#zone-base-and-name-the-entity-namespace) concept.
-
-`cmd` is a seneca property provided by `seneca-entity` for a given action pattern: `load|list|save|remove`.
-
-more info on: https://github.com/senecajs/seneca-entity
 
 <!--END:action-list-->
 
@@ -114,104 +97,48 @@ more info on: https://github.com/senecajs/seneca-entity
 
 ## Action Descriptions
 
-### &laquo; `role:entity,base:stytch,cmd:load,name:user,zone:provider` &raquo;
+### &laquo; `"role":"entity","base":"stytch","cmd":"list","name":"session","zone":"provider"` &raquo;
 
-Load Stytch user data into an entity.
-```js
-let user = await seneca.entity('provider/stytch/user')
-  .load$('<stytch-user-id>')
+No description provided.
 
-Console.log('USER', user)
-```
-<p name="entity"> Replies With Type: <i>&lt;Entity&gt;</i> where <code>Entity</code> is a set of data fields determined by the sdk and is turned into a seneca data entity. </p>
-
-----------
-### &laquo; `role:entity,base:stytch,cmd:list,name:user,zone:provider` &raquo;
-
-List Stytch users into an entity.
-```js
-// list
-let user_list = await seneca.entity('provider/stytch/user').list$()
-
-Console.log('USER LIST', user_list)
-```
-The Stytch list users body parameters are also, by default, inherited by this action pattern. So:
-
-```js
-await seneca.entity('provider/stytch/user').list$({ limit: Number }) // specify your Stytch parameters
-```
-Replies With Type: ```<Array<Entity>>``` where ```Array<Entity>``` is a list of SDK data entities
-
-----------
-### &laquo; `role:entity,base:stytch,cmd:save,name:user,zone:provider` &raquo;
-
-Save/Update Stytch user data from an entity.
-
-```js
-// Save and add data
-let user = await seneca.entity('provider/stytch/user')
-let saved = await user.save$({ user: { email: 'alice@example.com' } })
-Console.log('SAVED USER', saved)
-
-// Update and add data
-let user_loaded = await user.load$('<stytch-user-id>')
-let updated = await user_loaded.data$({ user: { name: { first_name: 'Alice' } } }).save$()
-Console.log('UPDATED USER', updated)
-```
-
-<p>Check out: <a href="#entity">Entity</a><br> </p>
-
-----------
-### &laquo; `role:entity,base:stytch,cmd:remove,name:user,zone:provider` &raquo;
-
-Remove Stytch user from an entity.
-
-```js
-let removed = await seneca.entity('provider/stytch/user').remove$('<stytch-user-id>')
-```
-
-<p>Check out: <a href="#entity">Entity</a><br> </p>
 
 
 ----------
-### &laquo; `sys:provider,get:info,provider:stytch` &raquo;
+### &laquo; `"role":"entity","base":"stytch","cmd":"list","name":"user","zone":"provider"` &raquo;
 
-Get information about the provider.
+List Stytch data into an entity
 
-```js
-let pluginInfo = await seneca.post('sys:provider,provider:stytch,get:info')
-```
-Replies With
-```
-{
-  ok: true,
-  name: '<provider-name>',
-  version: '<provider-version>',
-  sdk: {
-    name: '<sdk-name>',
-    version: '<sdk-version>',
-  }
-}
-```
+
+
+----------
+### &laquo; `"role":"entity","base":"stytch","cmd":"load","name":"user","zone":"provider"` &raquo;
+
+Load Stytch data into an entity
+
+
+
+----------
+### &laquo; `"role":"entity","base":"stytch","cmd":"remove","name":"user","zone":"provider"` &raquo;
+
+Remove Stytch data from an entity
+
+
+
+----------
+### &laquo; `"role":"entity","base":"stytch","cmd":"save","name":"user","zone":"provider"` &raquo;
+
+Update/Save Stytch data into an entity
+
+
+
+----------
+### &laquo; `"sys":"provider","get":"info","provider":"stytch"` &raquo;
+
+Get information about the Stytch SDK.
+
 
 
 ----------
 
-## Exporting and Extending
-You can export the SDK instance and use it in your own seneca message.
-
-for example
-```js
-let sdk = seneca.export('StytchProvider/sdk')()
-
-seneca.message('auth:stytch,sys:user', async function (msg, reply) {
-  let token = msg.token
-
-  let out = await sdk.magicLinks.authenticate(token)
-
-  return { ok: true, out }
-})
-
-```
 
 <!--END:action-desc-->
