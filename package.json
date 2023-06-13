@@ -50,7 +50,7 @@
     "seneca-promisify": ">=3"
   },
   "devDependencies": {
-    "@seneca/doc": "^4.1.0",
+    "@seneca/doc": "^4.2.4",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.7.18",
     "esbuild": "^0.15.8",
