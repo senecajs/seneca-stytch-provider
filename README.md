@@ -16,7 +16,7 @@
 Provides access to the Stytch API using the Seneca *provider*
 convention. Stytch API entities are represented as Seneca entities so
 that they can be accessed using the Seneca entity API and messages.
-See [seneca-entity](https://github.com/senecajs/seneca-entity) and the [Seneca Data
+See [@seneca/entity](https://github.com/senecajs/seneca-entity) and the [Seneca Data
 Entities
 Tutorial](https://senecajs.org/docs/tutorials/understanding-data-entities.html) for more details on the Seneca entity API.
 NOTE: underlying third party SDK needs to be replaced as out of date and has a security issue.
@@ -24,8 +24,10 @@ NOTE: underlying third party SDK needs to be replaced as out of date and has a s
 
 ## Install
 
+Requires Seneca 4 and Node.js 24 or later.
+
 ```sh
-$ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider seneca-promisify
+$ npm install seneca@^4 @seneca/entity @seneca/provider @seneca/env @seneca/stytch-provider
 ```
 
 
@@ -40,16 +42,15 @@ $ npm install @seneca/stytch-provider @seneca/env seneca-entity @seneca/provider
 // environment variable.
 const seneca = Seneca({ legacy: false })
   .test() // sets up the Seneca instance for testing: easier to read layout
-  .use('promisify')
-  .use('entity')
-  // Get API keys using the seneca-env plugin
-  .use('env', {
+  .use('@seneca/entity')
+  // Get API keys using the @seneca/env plugin
+  .use('@seneca/env', {
     var: {
       $STYTCH_PROJECTID: String,
       $STYTCH_SECRET: String,
     }
   })
-  .use('provider', {
+  .use('@seneca/provider', {
     provider: {
       stytch: {
         keys: {
@@ -60,7 +61,7 @@ const seneca = Seneca({ legacy: false })
     }
   })
   // load up the 'provider/stytch/user' entity
-  .use('stytch-provider')
+  .use('@seneca/stytch-provider')
   // it is recommended that you get seneca instance 'ready' before moving on 
   await seneca.ready()
 ```

@@ -2,9 +2,8 @@ const Seneca = require('seneca')
 
 Seneca({ legacy: false })
   .test()
-  .use('promisify')
-  .use('entity')
-  .use('env', {
+  .use('@seneca/entity')
+  .use('@seneca/env', {
     // debug: true,
     file: [__dirname + '/local-env.js;?'],
     var: {
@@ -12,7 +11,7 @@ Seneca({ legacy: false })
       $STYTCH_SECRET: String,
     }
   })
-  .use('provider', {
+  .use('@seneca/provider', {
     provider: {
       stytch: {
         keys: {
