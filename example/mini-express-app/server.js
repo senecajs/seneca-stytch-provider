@@ -28,15 +28,14 @@ start()
 async function makeSeneca(opts) {
   const seneca = Seneca(opts)
     .test()
-    .use('promisify')
-    .use('entity')
-    .use('env', {
+    .use('@seneca/entity')
+    .use('@seneca/env', {
       var: {
         $STYTCH_PROJECTID: String,
         $STYTCH_SECRET: String,
       }
     })
-    .use('provider', {
+    .use('@seneca/provider', {
       provider: {
         stytch: {
           keys: {
@@ -47,7 +46,7 @@ async function makeSeneca(opts) {
       }
     })
     .use(StytchProvider)
-    .use('user')
+    .use('@seneca/user')
 
   await seneca.ready()
 
